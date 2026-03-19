@@ -1,0 +1,20 @@
+{
+  "name": "ya-deputat",
+  "version": "1.0.0",
+  "description": "PWA приложение для муниципальных депутатов",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node server/server.js",
+    "generate-vapid": "node server/generate-vapid.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.0.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "web-push": "^3.6.7"
+  }
+}
