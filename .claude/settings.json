@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "A file was just modified: $ARGUMENTS. Check if this change affects the project's functionality, structure, API, or features described in README.md. If yes, respond with a JSON object containing 'decision': 'block' and 'reason' explaining what in README.md needs updating. If the change is minor (formatting, comments, config) or doesn't affect README.md content, respond with an empty JSON object {}."
+          }
+        ]
+      }
+    ]
+  }
+}
