@@ -17,15 +17,24 @@ function getVapidKeys() {
 
 const vapidKeys = getVapidKeys();
 
+// Get contact email from settings or use default
+const adminEmail = db.prepare("SELECT email FROM admins WHERE admin_role='system_admin' LIMIT 1").get();
 webpush.setVapidDetails(
-  'mailto:admin@ya-deputat.local',
+  `mailto:${adminEmail?.email || 'admin@deputat.zetit.ru'}`,
   vapidKeys.publicKey,
   vapidKeys.privateKey
 );
 
-async function sendPushToDeputy(deputyId, payload) {
-  const deputy = db.prepare('SELECT push_subscription FROM deputies WHERE id = ?').get(deputyId);
+async function sendPushToDeputy(deputyId, payload, notificationType) {
+  const deputy = db.prepare('SELECT push_subscription, notification_preferences FROM deputies WHERE id = ?').get(deputyId);
   if (!deputy?.push_subscription) return false;
+
+  // Check notification preference
+  if (notificationType) {
+    const prefs = JSON.parse(deputy.notification_preferences || '{}');
+    const prefKey = `push_${notificationType}`;
+    if (prefs[prefKey] === false) return false;
+  }
 
   try {
     const subscription = JSON.parse(deputy.push_subscription);
@@ -40,7 +49,7 @@ async function sendPushToDeputy(deputyId, payload) {
   }
 }
 
-async function sendPushToEventParticipants(eventId, payload) {
+async function sendPushToEventParticipants(eventId, payload, notificationType) {
   const participants = db.prepare(`
     SELECT d.id FROM deputies d
     JOIN event_participants ep ON ep.deputy_id = d.id
@@ -48,7 +57,7 @@ async function sendPushToEventParticipants(eventId, payload) {
   `).all(eventId);
 
   const results = await Promise.allSettled(
-    participants.map(p => sendPushToDeputy(p.id, payload))
+    participants.map(p => sendPushToDeputy(p.id, payload, notificationType))
   );
 
   return results.filter(r => r.status === 'fulfilled' && r.value).length;

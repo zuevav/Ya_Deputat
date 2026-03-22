@@ -1,5 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
-  <rect width="192" height="192" rx="28.799999999999997" fill="#1a237e"/>
-  <text x="50%" y="42%" text-anchor="middle" dominant-baseline="central" font-family="Arial,sans-serif" font-weight="bold" font-size="38.400000000000006" fill="white">Я</text>
-  <text x="50%" y="68%" text-anchor="middle" dominant-baseline="central" font-family="Arial,sans-serif" font-weight="bold" font-size="24.96" fill="#ffab00">ДЕПУТАТ</text>
+  <rect width="192" height="192" rx="38" fill="#fff"/>
+  <g transform="translate(96,88)" fill="none" stroke="#1D1D1F" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M36 48v-4a20 20 0 0 0-20-20H-16a20 20 0 0 0-20 20v4"/>
+    <circle cx="0" cy="-8" r="18"/>
+  </g>
 </svg>
